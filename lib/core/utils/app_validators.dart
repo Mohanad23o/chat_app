@@ -16,6 +16,9 @@ class AppValidators {
 
   static String? validatePassword({required String? val}) {
     if (val?.trim() != null && val!.trim().isNotEmpty) {
+      if (val.length < 8) {
+        return 'Must be at least 8 characters long';
+      }
       if (!RegExp(r'^(?=.*?[A-Z])').hasMatch(val)) {
         return 'Must contain at least one uppercase letter';
       }
@@ -28,9 +31,6 @@ class AppValidators {
       if (!RegExp(r'^(?=.*?[!@#\$&*~])').hasMatch(val)) {
         return 'Must contain at least one special character';
       }
-      if (val.length < 8) {
-        return 'Must be at least 8 characters long';
-      }
       return null;
     } else {
       return AppStrings.emptyFieldErrorMsg;
@@ -42,7 +42,7 @@ class AppValidators {
     if (val == null || val.trim().isEmpty) {
       return AppStrings.emptyFieldErrorMsg;
     }
-    if (val!.length < 3 || val.length > 16) {
+    if (val.length < 3 || val.length > 16) {
       return 'Username must be between 3 and 16 characters long.';
     }
 

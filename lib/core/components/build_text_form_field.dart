@@ -16,8 +16,7 @@ class BuildTextFormField extends StatelessWidget {
   TextEditingController controller;
   TextInputType? textInputType;
 
-  BuildTextFormField(
-      {this.validator,
+  BuildTextFormField({super.key, this.validator,
       required this.controller,
       this.suffixIcon,
       this.prefixIcon,
@@ -48,7 +47,7 @@ class BuildTextFormField extends StatelessWidget {
         enabled: true,
         suffixIcon: suffixIcon,
         helperText: helperText,
-        hintFadeDuration: Duration(seconds: 2),
+        hintFadeDuration: const Duration(seconds: 2),
         prefixIcon: prefixIcon,
         border: const UnderlineInputBorder(
             borderSide: BorderSide(color: ColorManager.primary)),

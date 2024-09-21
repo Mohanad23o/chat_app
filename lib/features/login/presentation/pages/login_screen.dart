@@ -19,10 +19,11 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:loading_btn/loading_btn.dart';
-import 'package:lottie/lottie.dart';
 
 class LoginScreen extends StatelessWidget {
   LoginScreenViewModel viewModel = getIt<LoginScreenViewModel>();
+
+  LoginScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -33,11 +34,12 @@ class LoginScreen extends StatelessWidget {
           print('success');
           DialogUtils.showMassage(
               context: context,
-              content: AppStrings.createdAccountSuccessfully,
+              content: AppStrings.loginSuccessfully,
               title: 'Success',
               posActionName: 'Ok',
               posAction: () {
                 Navigator.pop(context);
+                Navigator.pushReplacementNamed(context, Routes.homeScreen);
               });
         }
         if (state is LoginErrorState) {
@@ -67,7 +69,7 @@ class LoginScreen extends StatelessWidget {
             Scaffold(
               backgroundColor: ColorManager.transparent,
               appBar: AppBar(
-                leading: SizedBox(),
+                leading: const SizedBox(),
                 backgroundColor: ColorManager.transparent,
                 elevation: 0,
                 toolbarHeight: 85.h,
@@ -135,7 +137,8 @@ class LoginScreen extends StatelessWidget {
                           LoadingBtn(
                             roundLoadingShape: false,
                             height: 68.h,
-                            animationDuration: Duration(milliseconds: 200),
+                            animationDuration:
+                                const Duration(milliseconds: 200),
                             borderRadius: 15.r,
                             width: 50.w,
                             animate: true,
@@ -146,7 +149,7 @@ class LoginScreen extends StatelessWidget {
                                     .validate()) {
                                   viewModel.login();
                                   startLoading();
-                                  Timer(Duration(seconds: 3),
+                                  Timer(const Duration(seconds: 2),
                                       () => stopLoading());
                                 }
                               }

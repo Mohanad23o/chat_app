@@ -1,27 +1,14 @@
-import 'dart:async';
-
-import 'package:chat_app_c11/core/cache/shared_preferences_utils.dart';
 import 'package:chat_app_c11/core/components/dialog_utils.dart';
+import 'package:chat_app_c11/core/components/general_icon_button.dart';
 import 'package:chat_app_c11/core/di/di.dart';
 import 'package:chat_app_c11/core/errors/exceptions.dart';
-import 'package:chat_app_c11/features/register/data/data_sources/remote_data_source/impl/register_remote_data_source_impl.dart';
-import 'package:chat_app_c11/features/register/data/data_sources/remote_data_source/register_remote_data_source.dart';
-import 'package:chat_app_c11/features/register/data/repositories/register_repository_impl.dart';
-import 'package:chat_app_c11/features/register/domain/repositories/register_repository.dart';
-import 'package:chat_app_c11/features/register/domain/use_cases/register_use_case.dart';
 import 'package:chat_app_c11/features/register/presentation/manager/cubit/register_screen_view_model.dart';
-import 'package:chat_app_c11/features/register/presentation/manager/cubit/register_state.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:loading_animation_widget/loading_animation_widget.dart';
-import 'package:loading_btn/loading_btn.dart';
-import 'package:lottie/lottie.dart';
-import 'package:readmore/readmore.dart';
 
+import '../../../../config/routes/routes.dart';
 import '../../../../core/components/build_text_form_field.dart';
-import '../../../../core/components/general_icon_button.dart';
 import '../../../../core/utils/app_strings.dart';
 import '../../../../core/utils/app_validators.dart';
 import '../../../../core/utils/color_manager.dart';
@@ -33,7 +20,7 @@ import '../../../login/presentation/manager/cubit/login_state.dart';
 class RegisterScreen extends StatelessWidget {
   RegisterScreen({super.key});
 
-  RegisterScreenViewModel viewModel = getIt<RegisterScreenViewModel>();
+  final viewModel = getIt<RegisterScreenViewModel>();
 
   @override
   Widget build(BuildContext context) {
@@ -41,7 +28,6 @@ class RegisterScreen extends StatelessWidget {
       bloc: viewModel,
       listener: (context, state) {
         if (state is RegisterSuccessState) {
-          print('success');
           DialogUtils.showMassage(
               context: context,
               content: AppStrings.createdAccountSuccessfully,
@@ -49,6 +35,7 @@ class RegisterScreen extends StatelessWidget {
               posActionName: 'Ok',
               posAction: () {
                 Navigator.pop(context);
+                Navigator.pushReplacementNamed(context, Routes.homeScreen);
               });
         }
 
@@ -114,7 +101,7 @@ class RegisterScreen extends StatelessWidget {
             Scaffold(
               backgroundColor: ColorManager.transparent,
               appBar: AppBar(
-                leading: SizedBox(),
+                leading: const SizedBox(),
                 backgroundColor: ColorManager.transparent,
                 elevation: 0,
                 toolbarHeight: 85.h,
@@ -175,63 +162,12 @@ class RegisterScreen extends StatelessWidget {
                           SizedBox(
                             height: 31.h,
                           ),
-                          LoadingBtn(
-                            roundLoadingShape: false,
-                            height: 68.h,
-                            animationDuration: Duration(milliseconds: 200),
-                            // padding: EdgeInsets.all(20.sp),
-                            borderRadius: 15.r,
-                            width: 50.w,
-                            animate: true,
-                            onTap:
-                                ((startLoading, stopLoading, btnState) async {
-                              if (btnState == ButtonState.idle) {
-                                if (viewModel.formKey.currentState!
-                                    .validate()) {
-                                  viewModel.register();
-                                  startLoading();
-                                  Timer(Duration(seconds: 3),
-                                      () => stopLoading());
-                                }
-                              }
-                            }),
-                            color: ColorManager.primary,
-                            loader: Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Text(
-                                  'Loading...   ',
-                                  style: getMediumStyle(
-                                      color: ColorManager.white,
-                                      fontSize: FontSize.s16.sp),
-                                ),
-                                LoadingAnimationWidget.discreteCircle(
-                                    color: ColorManager.white,
-                                    size: 23.sp,
-                                    thirdRingColor: ColorManager.black,
-                                    secondRingColor: Colors.red),
-                              ],
-                            ),
-                            child: Padding(
-                              padding: EdgeInsets.all(10.sp),
-                              child: Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Text(
-                                    AppStrings.createAccount,
-                                    style: getSemiBoldStyle(
-                                        color: ColorManager.white,
-                                        fontSize: FontSize.s16.sp),
-                                  ),
-                                  Icon(
-                                    CupertinoIcons.arrow_right,
-                                    size: 25.sp,
-                                    color: ColorManager.white,
-                                  )
-                                ],
-                              ),
-                            ),
+                          AnimatedIconButtonWithLoading(
+                            leadingTitle: AppStrings.createAccount,
+                            onTap: () {
+                              viewModel.register();
+                            },
+                            formKey: viewModel.formKey,
                           ),
                           SizedBox(
                             height: 35.h,
@@ -247,7 +183,8 @@ class RegisterScreen extends StatelessWidget {
                               ),
                               InkWell(
                                 onTap: () {
-                                  Navigator.pop(context);
+                                  Navigator.pushReplacementNamed(
+                                      context, Routes.loginIn);
                                 },
                                 child: Text(
                                   AppStrings.login,

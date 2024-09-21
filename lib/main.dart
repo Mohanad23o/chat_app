@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:chat_app_c11/core/cache/shared_preferences_utils.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
@@ -10,6 +8,7 @@ import 'config/routes/route_generator.dart';
 import 'config/routes/routes.dart';
 import 'core/di/di.dart';
 import 'core/utils/my_bloc_observer.dart';
+import 'firebase_options.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -17,19 +16,22 @@ void main() async {
   configureDependencies();
   Bloc.observer = MyBlocObserver();
 
-  runApp(MyApp());
+  runApp(const MyApp());
 
   try {
-    if (Platform.isAndroid) {
-      await Firebase.initializeApp(
-          options: const FirebaseOptions(
-              apiKey: 'AIzaSyA7ssttg34QPxoAMcjDJFJql0FcFnLYKj8',
-              appId: 'com.example.chat_app_c11',
-              messagingSenderId: '260190022044',
-              projectId: 'chat-app-c11'));
-    } else {
-      await Firebase.initializeApp();
-    }
+    await Firebase.initializeApp(
+      options: DefaultFirebaseOptions.currentPlatform,
+    );
+    // if (Platform.isAndroid) {
+    //   await Firebase.initializeApp(
+    //       options: const FirebaseOptions(
+    //           apiKey: 'AIzaSyCyb5kh10tTsL-mbMWmwX6_cv8avZf3YBI',
+    //           appId: 'com.example.chat_app_c11',
+    //           messagingSenderId: '725999559661',
+    //           projectId: 'todo-app-c11-7502b'));
+    // } else {
+    //   await Firebase.initializeApp();
+    // }
   } catch (e) {
     print(e.toString());
   }
@@ -47,7 +49,7 @@ class MyApp extends StatelessWidget {
         builder: (context, child) => MaterialApp(
               debugShowCheckedModeBanner: false,
               home: child,
-              initialRoute: Routes.loginIn,
+              initialRoute: Routes.signUp,
               onGenerateRoute: RouteGenerator.getRoute,
             ));
   }

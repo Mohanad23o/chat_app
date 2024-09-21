@@ -1,8 +1,6 @@
-import 'package:chat_app_c11/core/cache/shared_preferences_utils.dart';
 import 'package:chat_app_c11/core/errors/exceptions.dart';
 import 'package:chat_app_c11/core/errors/failures.dart';
 import 'package:chat_app_c11/features/login/data/data_sources/remote_data_source/login_remote_data_source.dart';
-import 'package:chat_app_c11/features/register/data/data_sources/remote_data_source/register_remote_data_source.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:dartz/dartz.dart';
 import 'package:firebase_auth/firebase_auth.dart';
