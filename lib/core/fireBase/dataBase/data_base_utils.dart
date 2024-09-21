@@ -14,4 +14,9 @@ class DataBaseUtils {
   static Future<void> registerUser(MyUser user) async {
     return getUserCollection().doc(user.uId).set(user);
   }
+
+  static Future<MyUser?> getUser(String uId) async {
+    var documentSnapShot = await getUserCollection().doc(uId).get();
+    return documentSnapShot.data();
+  }
 }

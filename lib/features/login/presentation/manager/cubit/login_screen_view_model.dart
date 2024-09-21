@@ -1,3 +1,4 @@
+import 'package:chat_app_c11/core/fireBase/dataBase/data_base_utils.dart';
 import 'package:chat_app_c11/features/login/domain/use_cases/login_use_case.dart';
 import 'package:chat_app_c11/features/register/presentation/manager/cubit/register_state.dart';
 import 'package:flutter/material.dart';
@@ -23,8 +24,10 @@ class LoginScreenViewModel extends Cubit<LoginState> {
       either.fold((l) {
         emit(LoginErrorState(errorMessage: l.errorMessage));
         print(l.errorMessage);
-      }, (r) {
+      }, (r) async {
         emit(LoginSuccessState(user: r));
+        var user = await DataBaseUtils.getUser(r.user?.uid ?? '');
+        print('user name is : ${user?.name ?? ''}');
       });
     }
   }

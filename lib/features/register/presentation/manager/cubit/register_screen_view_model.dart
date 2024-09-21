@@ -1,10 +1,11 @@
 import 'package:chat_app_c11/features/login/presentation/manager/cubit/login_state.dart';
 import 'package:chat_app_c11/features/register/data/models/my_user.dart';
 import 'package:chat_app_c11/features/register/domain/use_cases/register_use_case.dart';
-import 'package:chat_app_c11/features/register/fireBase/dataBase/data_base_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:injectable/injectable.dart';
+
+import '../../../../../core/fireBase/dataBase/data_base_utils.dart';
 
 @injectable
 class RegisterScreenViewModel extends Cubit<RegisterState> {
